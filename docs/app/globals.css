@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Global styles for the UGC Dashboard. You can customize typography,
+  background colors, and other CSS variables here. The base styles
+  come from Tailwind CSS. Additional styles ensure the application
+  feels polished and accessible across devices.
+*/
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+}

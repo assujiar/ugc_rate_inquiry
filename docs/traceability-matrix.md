@@ -1,0 +1,43 @@
+# Traceability Matrix
+
+This matrix maps the sections of each document in the `docs` directory to the files and modules in the codebase that implement them. The goal is to provide transparency between the documentation and the implementation. Because the original specification was missing, this matrix reflects best‑effort associations based on the assumptions made during development.
+
+| Document & Section                                 | Implementation File(s) / Module(s)                                                                                                                                                                |
+|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **web‑architecture‑blueprint.md**<br/>Overview & Key Architectural Principles | `/app/layout.tsx`, `/app/(protected)/layout.tsx`, `/lib/auth/session.ts`, `/lib/rbac/authorize.ts`, `/components/app-shell/AppShell.tsx` – Implement the App Router structure, authentication, and role‑based access control. |
+| High‑Level Architecture Diagram                    | This is illustrated conceptually; implemented via Next.js pages (`app/`) and Supabase integration in `/lib/supabase/*`.                                                                           |
+| Application Modules                                | Routes under `/app/(protected)/dashboard/<domain>` and `/app/(protected)/modules/*`. API handlers under `/app/api/<domain>` enforce domain separation.                                                |
+| Authentication & Authorization                     | RBAC helpers in `/lib/rbac/*`, authentication logic in `/lib/auth/*`, API handlers checking permissions. Supabase RLS policies defined in `supabase/policies/`.                                      |
+| Deployment                                         | Deployment configuration in `vercel.json` (if present), environment variables in `.env.example`, and guides in `docs/deploy-vercel.md`.                                                             |
+| **db‑schema‑sql‑scripts.md**<br/>Core & RBAC Tables  | SQL files under `supabase/migrations/0001_core_extensions.sql` through `0005_master_data.sql`.                                                                                                       |
+| Sales Domain                                       | `supabase/migrations/0101_sales_core.sql` through `0104_sales_indexes.sql`; API handlers under `/app/api/sales/*`; React pages under `/app/(protected)/dashboard/sales`.                             |
+| Marketing Domain (v2)                              | `supabase/migrations/0201_marketing_core.sql` through `0209_marketing_indexes.sql`; API handlers under `/app/api/marketing/*`; React components under `components/marketing/`; forms under `components/forms/*`. |
+| Operations Domain                                  | `supabase/migrations/0301_ops_core.sql` through `0305_ops_indexes.sql`; API handlers under `/app/api/ops/*`; pages under `/app/(protected)/dashboard/ops`.                                             |
+| Finance Domain                                     | `supabase/migrations/0401_finance_core.sql` through `0405_finance_indexes.sql`; API handlers under `/app/api/finance/*`; pages under `/app/(protected)/dashboard/finance`.                             |
+| Shared KPI Framework                               | `supabase/migrations/0501_kpi_framework.sql`, `0502_kpi_views.sql`; KPI panels in `components/dashboard/KpiCard.tsx` and marketing KPI functionality in `/components/marketing/MarketingKpiPanel.tsx`. |
+| **rls‑security‑config.md**<br/>Enabling RLS         | `supabase/policies/1001_rls_enable_all_tables.sql` – Enables and forces RLS on all tables.                                                                                                           |
+| Helper Functions                                   | `supabase/policies/1002_rls_functions.sql` – Defines `fn_current_user_id`, `fn_has_permission`, and other helpers.                                                                                  |
+| Policy Examples                                    | Domain‑specific policy scripts in `supabase/policies/1100_rls_rbac.sql`, `1200_rls_sales.sql`, `1300_rls_marketing_v2.sql`, `1400_rls_ops.sql`, `1500_rls_finance.sql`, etc.                        |
+| Enforcement Strategy                               | API handlers (`/app/api/*`) call `authorize()` from `/lib/rbac/authorize.ts`; RLS is enforced in SQL; service role bypass is compensated by RBAC checks.                                             |
+| **implementation‑ops‑manual.md**
+| Local Development                                  | Steps correspond to `package.json` scripts (`dev`, `build`), Supabase CLI usage, and environment configuration in `.env.example`.                                                                  |
+| CI & Deployment                                    | CI scripts (not provided) would run `npm run lint`, `npm run typecheck`, `npm run build`; deployment via Vercel described in `docs/deploy-vercel.md`.                                               |
+| Monitoring & Backup                                | Not implemented in code; future tasks.                                                                                                                       |
+| **marketing‑enhancement‑v2.md**
+| Goals & Feature Overview                           | Implemented in marketing pages and API routes; associated with `components/marketing/*`, `app/api/marketing/*`, and migrations under `020x_*`.                                                     |
+| Data Model                                         | Reflected in SQL migrations for marketing tables and views.                                                                                                  |
+| User Stories                                       | Addressed by UI components and API handlers.                                                                                                                |
+| **marketing‑v2‑complete‑summary.md**               | Summarized features correspond to delivered React components, API routes, and SQL scripts.                                                                   |
+| **marketing‑v2‑final‑summary.md**                  | Testing steps align with `docs/setup-local.md`, `components/marketing/*`, and `app/api/marketing/*`.                                                         |
+| **marketing‑v2‑complete‑guide.md**                 | Detailed implementation guidance matches code in API handlers, React components, and SQL migrations.                                                         |
+| **marketing‑v2‑delivery‑checklist.md**             | Each checklist item maps to implementation tasks across the repository.                                                                                     |
+| **setup‑local.md**                                 | Maps to project setup commands in `package.json` and scripts described in `docs/implementation-ops-manual.md`.                                              |
+| **deploy‑vercel.md**                               | Corresponds to Vercel configuration (if provided) and environment variables.                                                                                 |
+| **ops‑runbook.md**                                 | Guides operational procedures; not implemented in code but referenced.                                                                                       |
+| **rls‑verification.md**                            | Maps to test scripts or manual steps for verifying RLS; not directly implemented in code.                                                                    |
+| **marketing‑v2‑implementation‑notes.md**           | Additional notes that may map to TODOs or comments in code.                                                                                                 |
+| **gaps‑and‑assumptions.md**                        | Records assumptions due to missing documentation; influences design decisions across multiple files.                                                         |
+
+---
+
+The matrix above is a living document. As the project evolves or official documentation becomes available, update this mapping to ensure alignment between requirements and implementation.

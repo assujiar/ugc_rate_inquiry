@@ -1,0 +1,19 @@
+[project]
+schema_format = "sql"
+
+[api]
+enabled = true
+port = 54321
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = false
+
+[schema]
+file_format = "sql"
+
+[storage]
+default_bucket = "attachments"

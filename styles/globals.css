@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens based on the provided light glassmorphism palette.
+  Using rgb triplets so Tailwind can apply alpha.
+*/
+:root {
+  /* Core palette (RGB triplets) */
+  --white: 255 255 255;
+  --space: 11 18 32;
+  --navy: 15 26 45;
+
+  --primary: 255 70 0;      /* Red-Orange */
+  --primary-2: 220 47 2;    /* Sinopia */
+  --amber: 246 130 32;      /* Amber */
+  --highlight: 255 159 28;  /* Vivid Amber */
+  --cinnabar: 227 89 53;    /* Cinnabar */
+  --accent: 255 107 51;     /* Vivid Tangel */
+
+  --info: var(--navy);
+  --warning: var(--highlight);
+  --danger: var(--primary-2);
+  --success: 22 163 74; /* success (placeholder) */
+
+  /* Surfaces */
+  --bg: var(--white);
+  --surface: var(--white);
+  --glass-soft: var(--white);
+  --glass-strong: var(--white);
+
+  /* Text */
+  --text: var(--navy);
+  --text-strong: var(--space);
+  --text-muted: 15 26 45; /* same as navy, but will apply opacity via utilities */
+
+  /* Borders */
+  --border: var(--space);
+  --border-strong: var(--navy);
+}
+
+body {
+  @apply bg-bg text-text min-h-screen;
+}
+
+/* Utility classes for glass surfaces */
+.glass-soft {
+  @apply bg-white/70 backdrop-blur-md border border-border/10 shadow-glass1 rounded-lg;
+}
+.glass-strong {
+  @apply bg-white/85 backdrop-blur-lg border border-border-strong/14 shadow-glass3 rounded-xl;
+}
