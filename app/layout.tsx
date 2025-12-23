@@ -1,4 +1,5 @@
-﻿import "./globals.css";
+﻿@'
+import "./globals.css";
 import type { ReactNode } from "react";
 import SupabaseProvider from "@/components/SupabaseProvider";
 
@@ -16,3 +17,4 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     </html>
   );
 }
+'@ | Set-Content -Encoding UTF8 .\app\layout.tsx
